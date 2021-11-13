@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 build
 node_modules
 node_modules/*
 config.json
-=======
-/node_modules
-/build
->>>>>>> ad1f43b2b80ba3d1b41a8fb61d78dc9cf3e728df
