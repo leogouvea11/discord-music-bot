@@ -20,7 +20,8 @@ export const play = (params: { guild: Guild, song: ISong, queue: HandlerQueue })
   const dispatcher = serverQueue.connection
     .play(ytdl(song.url, {
       quality: 'highestaudio',
-      filter: 'audioonly'
+      filter: 'audioonly',
+      highWaterMark: 1024 * 1024 * 10
     }))
     .on('finish', () => {
       serverQueue.songs.shift()
