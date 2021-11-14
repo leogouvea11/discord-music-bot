@@ -1,10 +1,18 @@
 import { Message } from 'discord.js'
+import { HandlerQueue } from '../handleQueue'
 import { IQueue } from '../types/interface'
+import { play } from './play'
 
-export const skip = (params: { message: Message, serverQueue: IQueue | undefined }) => {
-  const { message, serverQueue } = params
+type SkipInput = {
+  message: Message,
+  serverQueue: IQueue | undefined,
+  queue: HandlerQueue
+}
 
-  if (!message.member)
+export const skip = (params: SkipInput) => {
+  const { message, serverQueue, queue } = params
+
+  if (!message.member || !message.guild)
     return
 
   if (!serverQueue)
@@ -13,5 +21,10 @@ export const skip = (params: { message: Message, serverQueue: IQueue | undefined
   if (!message.member.voice.channel)
     return message.channel.send('You have to be in a voice channel to stop the music!')
 
-  serverQueue.connection.dispatcher.end()
+  serverQueue.songs.shift()
+  play({
+    queue,
+    guild: message.guild,
+    song: serverQueue.songs[0]
+  })
 }

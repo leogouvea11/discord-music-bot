@@ -20,18 +20,18 @@ client.once('disconnect', () => {
 })
 
 client.on('message', async message => {
+  if (!message.content.startsWith(prefix)) return
   if (message.author.bot) return
   if (!message.guild) return
-  if (!message.content.startsWith(prefix)) return
 
   const serverQueue = queue.get(message.guild.id)
 
   if (message.content.startsWith(`${prefix}play`)) {
     commands.execute({ message, queue, serverQueue })
   } else if (message.content.startsWith(`${prefix}skip`)) {
-    commands.skip({ message, serverQueue })
+    commands.skip({ message, serverQueue, queue })
   } else if (message.content.startsWith(`${prefix}stop`)) {
-    commands.stop({ message, serverQueue })
+    commands.stop({ message, serverQueue, queue })
   } else {
     message.channel.send('You need to enter a valid command!')
   }

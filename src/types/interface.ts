@@ -1,6 +1,6 @@
 import { DMChannel, NewsChannel, TextChannel, VoiceChannel } from 'discord.js'
 
-export type IQueue = {
+export interface IQueue {
   textChannel: TextChannel | DMChannel | NewsChannel,
   voiceChannel: VoiceChannel,
   connection: any,
@@ -9,7 +9,7 @@ export type IQueue = {
   playing: boolean
 }
 
-export type ISong = {
+export interface ISong {
   title: string,
   url: string
 }
