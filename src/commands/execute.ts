@@ -1,9 +1,10 @@
+import ytfps from 'ytfps'
 import ytdl from 'ytdl-core'
 import yts from 'yt-search'
 import { Message, Permissions } from 'discord.js'
 import { play } from './play'
 import { HandlerQueue } from '../handleQueue'
-import { IQueue, ISong } from '../types/interface'
+import { IQueue, ISong, PlaylistResponse } from '../types/interface'
 import { PermissionsTypes } from '../types/enum'
 
 type ExecuteInput = {
@@ -29,9 +30,9 @@ export const execute = async (params: ExecuteInput) => {
     return message.channel.send('I need the permissions to join and speak in your voice channel!')
   }
 
-  const song = await getSongToPlay(message)
+  const songs = await getSongToPlay(message)
 
-  if (!song) {
+  if (!songs) {
     return message.channel.send("No songs were found!")
   }
 
@@ -45,9 +46,14 @@ export const execute = async (params: ExecuteInput) => {
       playing: true
     }
 
+    queueContruct.songs = queueContruct.songs.concat(songs)
     queue.set(message.guild.id, queueContruct)
 
-    queueContruct.songs.push(song)
+    if(queueContruct.songs.length === 1) {
+      message.channel.send(`**${songs[0].title}** has been added to the queue!`)
+    } else {
+      message.channel.send(`**${songs.length}** songs has been added to the queue!`)
+    }
 
     try {
       queueContruct.connection = await voiceChannel.join()
@@ -57,13 +63,11 @@ export const execute = async (params: ExecuteInput) => {
         song: queueContruct.songs[0]
       })
     } catch (err) {
-      console.log(err)
       queue.delete(message.guild.id)
       return message.channel.send(String(err))
     }
   } else {
-    serverQueue.songs.push(song)
-    return message.channel.send(`**${song.title}** has been added to the queue!`)
+    serverQueue.songs = serverQueue.songs.concat(songs)
   }
 }
 
@@ -72,24 +76,35 @@ const haveAllPermissions = (permissions: Readonly<Permissions> | null) =>
   || !permissions.has(PermissionsTypes.CONNECT)
   || !permissions.has(PermissionsTypes.SPEAK)
 
-const getSongToPlay = async (message: Message): Promise<ISong | undefined> => {
+const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => {
   const args = message.content.split(' ')
+  const url = args[1]
+  const songs: ISong[] = []
 
-  let song;
-  if (ytdl.validateURL(args[1])) {
-    const songInfo = await ytdl.getInfo(args[1]);
-    song = {
+  if (url.includes('playlist')){
+    const playlistInfo = await ytfps(url)
+    playlistInfo.videos.forEach(video => {
+      songs.push({
+        title: video.title,
+        url: video.url
+      })
+    })
+  }
+  else if (ytdl.validateURL(url)) {
+    const songInfo = await ytdl.getInfo(url);
+    songs.push({
       title: songInfo.videoDetails.title,
       url: songInfo.videoDetails.video_url
-    };
-  } else {
+    })
+  }
+  else {
     const {videos} = await yts(args.slice(1).join(" "));
     if (!videos.length) return
-    song = {
+    songs.push({
       title: videos[0].title,
       url: videos[0].url
-    }
+    })
   }
 
-  return song
+  return songs
 }

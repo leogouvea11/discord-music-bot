@@ -3,7 +3,13 @@ import { Guild } from 'discord.js'
 import { ISong } from '../types/interface'
 import { HandlerQueue } from '../handleQueue'
 
-export const play = (params: { guild: Guild, song: ISong, queue: HandlerQueue }) => {
+type PlayInput = {
+  guild: Guild,
+  song: ISong,
+  queue: HandlerQueue
+}
+
+export const play = (params: PlayInput) => {
   const { guild, queue, song } = params
   const serverQueue = queue.get(guild.id)
 
