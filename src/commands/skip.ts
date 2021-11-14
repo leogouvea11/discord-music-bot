@@ -22,6 +22,6 @@ export const skip = async (params: CommandInput): Promise<void> => {
   play({
     queue,
     guild: message.guild,
-    song: serverQueue.songs[0]
+    song: serverQueue.songs[0],
   })
 }

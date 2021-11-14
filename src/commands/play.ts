@@ -4,8 +4,8 @@ import { ISong } from '../types/interface'
 import { HandlerQueue } from '../handleQueue'
 
 type PlayInput = {
-  guild: Guild,
-  song: ISong,
+  guild: Guild
+  song: ISong
   queue: HandlerQueue
 }
 
@@ -24,17 +24,19 @@ export const play = (params: PlayInput): void => {
   }
 
   const dispatcher = serverQueue.connection
-    .play(ytdl(song.url, {
-      quality: 'highestaudio',
-      filter: 'audioonly',
-      highWaterMark: 1024 * 1024 * 10
-    }))
+    .play(
+      ytdl(song.url, {
+        quality: 'highestaudio',
+        filter: 'audioonly',
+        highWaterMark: 1024 * 1024 * 10,
+      }),
+    )
     .on('finish', () => {
       serverQueue.songs.shift()
       play({
         guild,
         queue,
-        song: serverQueue.songs[0]
+        song: serverQueue.songs[0],
       })
     })
     .on('error', (error: any) => console.error(error))

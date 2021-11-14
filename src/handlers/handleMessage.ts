@@ -8,17 +8,23 @@ import { CommandsAvailable } from '../types/enum'
 const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),
   skip: (params: CommandInput) => commands.skip(params),
-  stop: (params: CommandInput) => commands.stop(params)
+  stop: (params: CommandInput) => commands.stop(params),
 }
 
 type HandleMessageInput = {
-  message: Message,
+  message: Message
   queue: HandlerQueue
 }
 
-export const handleMessage = async (params: HandleMessageInput): Promise<void> => {
+export const handleMessage = async (
+  params: HandleMessageInput,
+): Promise<void> => {
   const { message, queue } = params
-  if (!message.content.startsWith(prefix) || message.author.bot || !message.guild) {
+  if (
+    !message.content.startsWith(prefix) ||
+    message.author.bot ||
+    !message.guild
+  ) {
     return
   }
 

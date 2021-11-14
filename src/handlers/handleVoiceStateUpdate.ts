@@ -2,14 +2,21 @@ import { VoiceState } from 'discord.js'
 import { HandlerQueue } from '../handleQueue'
 
 type HandleVoiceStateUpdateInput = {
-  oldState: VoiceState,
-  newState: VoiceState,
+  oldState: VoiceState
+  newState: VoiceState
   queue: HandlerQueue
 }
 
-export const handleVoiceStateUpdate = async (params: HandleVoiceStateUpdateInput) => {
+export const handleVoiceStateUpdate = async (
+  params: HandleVoiceStateUpdateInput,
+) => {
   const { newState, oldState, queue } = params
-  if (!oldState.channel || !oldState.guild.me || oldState.channelID !== oldState.guild.me.voice.channelID || newState.channel)
+  if (
+    !oldState.channel ||
+    !oldState.guild.me ||
+    oldState.channelID !== oldState.guild.me.voice.channelID ||
+    newState.channel
+  )
     return
 
   if (oldState.channel.members.size === 1) {

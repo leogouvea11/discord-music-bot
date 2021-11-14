@@ -21,14 +21,16 @@ export const execute = async (params: CommandInput): Promise<void> => {
 
   const permissions = voiceChannel.permissionsFor(message.client.user)
   if (haveAllPermissions(permissions)) {
-    message.channel.send('I need the permissions to join and speak in your voice channel!')
+    message.channel.send(
+      'I need the permissions to join and speak in your voice channel!',
+    )
     return
   }
 
   const songs = await getSongToPlay(message)
 
   if (!songs) {
-    message.channel.send("No songs were found!")
+    message.channel.send('No songs were found!')
     return
   }
 
@@ -43,7 +45,7 @@ export const execute = async (params: CommandInput): Promise<void> => {
     connection: null,
     songs: [],
     volume: 5,
-    playing: true
+    playing: true,
   }
 
   queueContruct.songs = queueContruct.songs.concat(songs)
@@ -52,7 +54,9 @@ export const execute = async (params: CommandInput): Promise<void> => {
   if (queueContruct.songs.length === 1) {
     message.channel.send(`**${songs[0].title}** has been added to the queue!`)
   } else {
-    message.channel.send(`**${songs.length}** songs has been added to the queue!`)
+    message.channel.send(
+      `**${songs.length}** songs has been added to the queue!`,
+    )
   }
 
   try {
@@ -60,7 +64,7 @@ export const execute = async (params: CommandInput): Promise<void> => {
     play({
       queue,
       guild: message.guild,
-      song: queueContruct.songs[0]
+      song: queueContruct.songs[0],
     })
   } catch (err) {
     queue.delete(message.guild.id)
@@ -69,11 +73,13 @@ export const execute = async (params: CommandInput): Promise<void> => {
 }
 
 const haveAllPermissions = (permissions: Readonly<Permissions> | null) =>
-  !permissions
-  || !permissions.has(PermissionsTypes.CONNECT)
-  || !permissions.has(PermissionsTypes.SPEAK)
+  !permissions ||
+  !permissions.has(PermissionsTypes.CONNECT) ||
+  !permissions.has(PermissionsTypes.SPEAK)
 
-const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => {
+const getSongToPlay = async (
+  message: Message,
+): Promise<ISong[] | undefined> => {
   const args = message.content.split(' ')
   const url = args[1]
   const songs: ISong[] = []
@@ -83,23 +89,21 @@ const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => 
     playlistInfo.videos.forEach((video: any) => {
       songs.push({
         title: video.title,
-        url: video.url
+        url: video.url,
       })
     })
-  }
-  else if (ytdl.validateURL(url)) {
-    const songInfo = await ytdl.getInfo(url);
+  } else if (ytdl.validateURL(url)) {
+    const songInfo = await ytdl.getInfo(url)
     songs.push({
       title: songInfo.videoDetails.title,
-      url: songInfo.videoDetails.video_url
+      url: songInfo.videoDetails.video_url,
     })
-  }
-  else {
-    const { videos } = await yts(args.slice(1).join(" "));
+  } else {
+    const { videos } = await yts(args.slice(1).join(' '))
     if (!videos.length) return
     songs.push({
       title: videos[0].title,
-      url: videos[0].url
+      url: videos[0].url,
     })
   }
 
