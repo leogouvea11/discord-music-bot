@@ -1,7 +1,7 @@
 import { Message } from 'discord.js'
-import { HandlerQueue } from '../handleQueue'
-import { prefix } from '../../config.json'
 import * as commands from '../commands'
+import { prefix } from '../../config.json'
+import { HandlerQueue } from '../handleQueue'
 import { CommandInput } from '../types/interface'
 import { CommandsAvailable } from '../types/enum'
 
@@ -9,6 +9,7 @@ const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),
   skip: (params: CommandInput) => commands.skip(params),
   stop: (params: CommandInput) => commands.stop(params),
+  shuffle: (params: CommandInput) => commands.shuffle(params),
 }
 
 type HandleMessageInput = {

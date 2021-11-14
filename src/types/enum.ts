@@ -7,4 +7,5 @@ export enum CommandsAvailable {
   play = 'play',
   stop = 'stop',
   skip = 'skip',
+  shuffle = 'shuffle',
 }
