@@ -83,7 +83,7 @@ const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => 
 
   if (url.includes('playlist')){
     const playlistInfo = await ytfps(url)
-    playlistInfo.videos.forEach(video => {
+    playlistInfo.videos.forEach((video: any) => {
       songs.push({
         title: video.title,
         url: video.url
