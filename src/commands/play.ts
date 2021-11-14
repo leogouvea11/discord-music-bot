@@ -13,7 +13,7 @@ export const play = (params: PlayInput): void => {
   const { guild, queue, song } = params
   const serverQueue = queue.get(guild.id)
 
-  if(!serverQueue) {
+  if (!serverQueue) {
     return
   }
 

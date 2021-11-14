@@ -14,7 +14,7 @@ export const handleVoiceStateUpdate = async (params: HandleVoiceStateUpdateInput
 
   if (oldState.channel.members.size === 1) {
     setTimeout(() => {
-      if (oldState.channel && oldState.channel.members.size === 1){
+      if (oldState.channel && oldState.channel.members.size === 1) {
         queue.delete(oldState.channel.guild.id)
         oldState.channel!.leave()
       }

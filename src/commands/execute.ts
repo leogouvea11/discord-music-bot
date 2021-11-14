@@ -49,7 +49,7 @@ export const execute = async (params: CommandInput): Promise<void> => {
   queueContruct.songs = queueContruct.songs.concat(songs)
   queue.set(message.guild.id, queueContruct)
 
-  if(queueContruct.songs.length === 1) {
+  if (queueContruct.songs.length === 1) {
     message.channel.send(`**${songs[0].title}** has been added to the queue!`)
   } else {
     message.channel.send(`**${songs.length}** songs has been added to the queue!`)
@@ -78,7 +78,7 @@ const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => 
   const url = args[1]
   const songs: ISong[] = []
 
-  if (url.includes('playlist')){
+  if (url.includes('playlist')) {
     const playlistInfo = await ytfps(url)
     playlistInfo.videos.forEach((video: any) => {
       songs.push({
@@ -95,7 +95,7 @@ const getSongToPlay = async (message: Message): Promise<ISong[] | undefined> => 
     })
   }
   else {
-    const {videos} = await yts(args.slice(1).join(" "));
+    const { videos } = await yts(args.slice(1).join(" "));
     if (!videos.length) return
     songs.push({
       title: videos[0].title,

@@ -4,11 +4,11 @@ import { CommandInput } from '../types/interface'
 export const skip = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
 
-  if (!message.member || !message.guild){
+  if (!message.member || !message.guild) {
     return
   }
 
-  if (!serverQueue){
+  if (!serverQueue) {
     message.channel.send('Does not have musics in queue to skip.')
     return
   }

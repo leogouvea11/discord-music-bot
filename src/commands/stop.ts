@@ -1,6 +1,6 @@
 import { CommandInput } from '../types/interface'
 
-export const stop = async(params: CommandInput): Promise<void> => {
+export const stop = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
 
   if (!message.member || !message.guild) {
@@ -12,7 +12,7 @@ export const stop = async(params: CommandInput): Promise<void> => {
     return
   }
 
-  if (!serverQueue){
+  if (!serverQueue) {
     message.channel.send('There is no song that I could stop!')
     return
   }

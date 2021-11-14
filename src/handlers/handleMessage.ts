@@ -3,7 +3,7 @@ import { HandlerQueue } from '../handleQueue'
 import { prefix } from '../../config.json'
 import * as commands from '../commands'
 import { CommandInput } from '../types/interface'
-import { CommandsAvailable } from 'src/types/enum'
+import { CommandsAvailable } from '../types/enum'
 
 const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),
@@ -25,15 +25,15 @@ export const handleMessage = async (params: HandleMessageInput): Promise<void> =
   const tokens = message.content.split(' ')
   const commandToken = tokens[0]
 
-  if(commandToken.charAt(0) === prefix) {
+  if (commandToken.charAt(0) === prefix) {
     const serverQueue = queue.get(message.guild.id)
     const command = commandToken.substring(1) as CommandsAvailable
 
-    if(!Object.values(CommandsAvailable).includes(command)) {
-      message.channel.send(`You need to enter a valid command!`)
+    if (!Object.values(CommandsAvailable).includes(command)) {
+      message.channel.send('You need to enter a valid command!')
       return
     }
-  
+
     commandHandler[command]({ message, serverQueue, queue })
   }
 }
