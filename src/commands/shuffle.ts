@@ -1,7 +1,7 @@
 import { play } from './play'
 import { CommandInput } from '../types/interface'
 
-export const skip = async (params: CommandInput): Promise<void> => {
+export const shuffle = (params: CommandInput) => {
   const { message, serverQueue, queue } = params
 
   if (!message.member || !message.guild) {
@@ -18,10 +18,21 @@ export const skip = async (params: CommandInput): Promise<void> => {
     return
   }
 
-  serverQueue.songs.shift()
+  serverQueue.songs = shuffleArray(serverQueue.songs)
   play({
     queue,
     guild: message.guild,
     song: serverQueue.songs[0],
   })
+}
+
+const shuffleArray = (array: any[]): any[] => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+
+  return array
 }

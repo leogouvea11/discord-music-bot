@@ -1,24 +1,21 @@
-import { Message } from 'discord.js'
-import { HandlerQueue } from 'src/handleQueue'
-import { IQueue } from '../types/interface'
+import { CommandInput } from '../types/interface'
 
-type StopInput = {
-  message: Message,
-  serverQueue: IQueue | undefined,
-  queue: HandlerQueue
-}
-
-export const stop = (params: StopInput) => {
+export const stop = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
 
-  if (!message.member || !message.guild)
+  if (!message.member || !message.guild) {
     return
+  }
 
-  if (!message.member.voice.channel)
-    return message.channel.send('You have to be in a voice channel to stop the music!')
+  if (!message.member.voice.channel) {
+    message.channel.send('You have to be in a voice channel to stop the music!')
+    return
+  }
 
-  if (!serverQueue)
-    return message.channel.send('There is no song that I could stop!')
+  if (!serverQueue) {
+    message.channel.send('There is no song that I could stop!')
+    return
+  }
 
   queue.delete(message.guild.id)
 
