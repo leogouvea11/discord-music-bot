@@ -17,8 +17,7 @@ export const stop = async (params: CommandInput): Promise<void> => {
     return
   }
 
+  message.channel.send('Stoping and leaving now, I hope you enjoyed the songs!')
   queue.delete(message.guild.id)
-
-  serverQueue.songs = []
-  serverQueue.connection.dispatcher.end()
+  serverQueue.voiceChannel.leave()
 }

@@ -15,7 +15,7 @@ export const handleVoiceStateUpdate = async (
     !oldState.channel ||
     !oldState.guild.me ||
     oldState.channelID !== oldState.guild.me.voice.channelID ||
-    newState.channel
+    !newState.channel
   )
     return
 
@@ -25,6 +25,6 @@ export const handleVoiceStateUpdate = async (
         queue.delete(oldState.channel.guild.id)
         oldState.channel!.leave()
       }
-    }, 120000)
+    }, 60000)
   }
 }
