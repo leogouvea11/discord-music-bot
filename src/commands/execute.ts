@@ -4,7 +4,7 @@ import yts from 'yt-search'
 import { Message, Permissions } from 'discord.js'
 import { play } from './play'
 import { HandlerQueue } from '../handleQueue'
-import { IQueue, ISong, PlaylistResponse } from '../types/interface'
+import { IQueue, ISong } from '../types/interface'
 import { PermissionsTypes } from '../types/enum'
 
 type ExecuteInput = {
