@@ -1,25 +1,22 @@
-import { Message } from 'discord.js'
-import { HandlerQueue } from '../handleQueue'
-import { IQueue } from '../types/interface'
 import { play } from './play'
+import { CommandInput } from '../types/interface'
 
-type SkipInput = {
-  message: Message,
-  serverQueue: IQueue | undefined,
-  queue: HandlerQueue
-}
-
-export const skip = (params: SkipInput) => {
+export const skip = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
 
-  if (!message.member || !message.guild)
+  if (!message.member || !message.guild){
     return
+  }
 
-  if (!serverQueue)
-    return message.channel.send('Does not have musics in queue to skip.')
+  if (!serverQueue){
+    message.channel.send('Does not have musics in queue to skip.')
+    return
+  }
 
-  if (!message.member.voice.channel)
-    return message.channel.send('You have to be in a voice channel to stop the music!')
+  if (!message.member.voice.channel) {
+    message.channel.send('You have to be in a voice channel to stop the music!')
+    return
+  }
 
   serverQueue.songs.shift()
   play({

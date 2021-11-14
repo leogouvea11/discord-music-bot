@@ -9,7 +9,7 @@ type PlayInput = {
   queue: HandlerQueue
 }
 
-export const play = (params: PlayInput) => {
+export const play = (params: PlayInput): void => {
   const { guild, queue, song } = params
   const serverQueue = queue.get(guild.id)
 

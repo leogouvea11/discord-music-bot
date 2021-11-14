@@ -1,7 +1,8 @@
 import { Client } from 'discord.js'
-import { prefix, token } from '../config.json'
+import { token } from '../config.json'
 import { HandlerQueue } from './handleQueue'
-import * as commands from './commands'
+import { handleMessage } from './handlers/handleMessage'
+import { handleVoiceStateUpdate } from './handlers/handleVoiceStateUpdate'
 
 const client = new Client()
 
@@ -19,24 +20,8 @@ client.once('disconnect', () => {
   console.log('Disconnect!')
 })
 
-client.on('message', async message => {
-  if (!message.content.startsWith(prefix)) return
-  if (message.author.bot) return
-  if (!message.guild) return
+client.on('voiceStateUpdate', (oldState, newState) => handleVoiceStateUpdate({ oldState, newState, queue}))
 
-  const serverQueue = queue.get(message.guild.id)
-
-  if (message.content.startsWith(`${prefix}play`)) {
-    commands.execute({ message, queue, serverQueue })
-  } else if (message.content.startsWith(`${prefix}skip`)) {
-    commands.skip({ message, serverQueue, queue })
-  } else if (message.content.startsWith(`${prefix}stop`)) {
-    commands.stop({ message, serverQueue, queue })
-  } else {
-    message.channel.send('You need to enter a valid command!')
-  }
-
-  return
-})
+client.on('message', async message => handleMessage({ message, queue }))
 
 client.login(token)
