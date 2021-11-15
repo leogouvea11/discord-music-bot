@@ -1,3 +1,4 @@
+import fs from 'fs'
 import ytdl from 'ytdl-core'
 import { Guild } from 'discord.js'
 import { ISong } from '../types/interface'
@@ -23,23 +24,35 @@ export const play = (params: PlayInput): void => {
     return
   }
 
-  const dispatcher = serverQueue.connection
-    .play(
-      ytdl(song.url, {
-        quality: 'highestaudio',
-        filter: 'audioonly',
-        highWaterMark: 1024 * 1024 * 10,
-      }),
-    )
-    .on('finish', () => {
-      serverQueue.songs.shift()
-      play({
-        guild,
-        queue,
-        song: serverQueue.songs[0],
-      })
-    })
-    .on('error', (error: any) => console.error(error))
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
-  serverQueue.textChannel.send(`Start playing: **${song.title}**`)
+  const songPath = `${song.title.replace(/\u20A9/g, '')}.mp3`
+
+  let errorOnGetFile: boolean = false
+  do {
+    try {
+      const dispatcher = serverQueue.connection
+        .play(
+          ytdl(song.url, {
+            quality: 'highestaudio',
+            filter: 'audioonly',
+            highWaterMark: 1024 * 1024 * 10,
+          }),
+        )
+        .on('finish', () => {
+          serverQueue.songs.shift()
+          fs.unlinkSync(songPath)
+          play({
+            guild,
+            queue,
+            song: serverQueue.songs[0],
+          })
+        })
+        .on('error', (error: any) => console.error(error))
+      dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
+      serverQueue.textChannel.send(`Start playing: **${song.title}**`)
+    } catch (error) {
+      if (error.statusCode === '403') {
+        errorOnGetFile = true
+      }
+    }
+  } while (errorOnGetFile)
 }
