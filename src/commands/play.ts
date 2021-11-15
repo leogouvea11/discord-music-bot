@@ -39,7 +39,6 @@ export const play = (params: PlayInput): void => {
         )
         .on('finish', () => {
           serverQueue.songs.shift()
-          fs.unlinkSync(songPath)
           play({
             guild,
             queue,
