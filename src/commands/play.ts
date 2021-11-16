@@ -24,34 +24,29 @@ export const play = (params: PlayInput): void => {
     return
   }
 
-  const songPath = `${song.title.replace(/\u20A9/g, '')}.mp3`
-
-  let errorOnGetFile: boolean = false
-  do {
-    try {
-      const dispatcher = serverQueue.connection
-        .play(
-          ytdl(song.url, {
-            quality: 'highestaudio',
-            filter: 'audioonly',
-            highWaterMark: 1024 * 1024 * 10,
-          }),
-        )
-        .on('finish', () => {
-          serverQueue.songs.shift()
-          play({
-            guild,
-            queue,
-            song: serverQueue.songs[0],
-          })
-        })
-        .on('error', (error: any) => console.error(error))
-      dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
-      serverQueue.textChannel.send(`Start playing: **${song.title}**`)
-    } catch (error) {
-      if (error.statusCode === '403') {
-        errorOnGetFile = true
+  const dispatcher = serverQueue.connection
+    .play(
+      ytdl(song.url, {
+        quality: 'highestaudio',
+        filter: 'audioonly',
+        highWaterMark: 1024 * 1024 * 10,
+      }),
+    )
+    .on('finish', () => {
+      serverQueue.songs.shift()
+      play({
+        guild,
+        queue,
+        song: serverQueue.songs[0],
+      })
+    })
+    .on('error', (error: any) => {
+      if (error.statusCode === 403) {
+        setTimeout(() => {
+          play(params)
+        }, 1000)
       }
-    }
-  } while (errorOnGetFile)
+    })
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
+  serverQueue.textChannel.send(`Start playing: **${song.title}**`)
 }
