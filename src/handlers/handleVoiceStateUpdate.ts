@@ -25,6 +25,6 @@ export const handleVoiceStateUpdate = async (
         queue.delete(oldState.channel.guild.id)
         oldState.channel!.leave()
       }
-    }, 60000)
+    }, 10000)
   }
 }

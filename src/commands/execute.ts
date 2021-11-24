@@ -36,6 +36,9 @@ export const execute = async (params: CommandInput): Promise<void> => {
 
   if (serverQueue) {
     serverQueue.songs = serverQueue.songs.concat(songs)
+    message.channel.send(
+      `**${songs.length}** songs has been added to the queue!`,
+    )
     return
   }
 

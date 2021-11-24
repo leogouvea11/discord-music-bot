@@ -10,6 +10,7 @@ const commandHandler = {
   skip: (params: CommandInput) => commands.skip(params),
   stop: (params: CommandInput) => commands.stop(params),
   shuffle: (params: CommandInput) => commands.shuffle(params),
+  lyrics: (params: CommandInput) => commands.lyrics(params),
 }
 
 type HandleMessageInput = {

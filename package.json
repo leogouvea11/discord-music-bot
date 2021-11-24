@@ -5,10 +5,13 @@
   "main": "src/index.js",
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
+    "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
     "discord.js": "^12.5.3",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
+    "node-fetch": "^3.1.0",
     "yt-search": "^2.10.2",
     "ytdl-core": "^4.9.1",
     "ytfps": "^1.0.5"
@@ -33,7 +36,7 @@
     "rimraf": "^3.0.2",
     "ts-node": "^8.10.2",
     "tslint-config-standard": "^9.0.0",
-    "typescript": "^3.9.10"
+    "typescript": "^4.2.4"
   },
   "scripts": {
     "build": "rimraf ./build && tsc",
@@ -44,7 +47,7 @@
     "type": "git",
     "url": "git+https://github.com/leogouvea11/nina-tucker-bot.git"
   },
-  "author": "Leonardo O",
+  "author": "Leonardo Oliveira de Gouvêa",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/leogouvea11/nina-tucker-bot/issues"

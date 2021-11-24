@@ -1,4 +1,3 @@
-import fs from 'fs'
 import ytdl from 'ytdl-core'
 import { Guild } from 'discord.js'
 import { ISong } from '../types/interface'

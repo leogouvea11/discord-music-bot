@@ -8,4 +8,5 @@ export enum CommandsAvailable {
   stop = 'stop',
   skip = 'skip',
   shuffle = 'shuffle',
+  lyrics = 'lyrics',
 }
