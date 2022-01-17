@@ -1,1 +1,1 @@
-# nina-tucker-bot
+# Discord music bot
