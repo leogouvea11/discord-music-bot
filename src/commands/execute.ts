@@ -87,7 +87,17 @@ const getSongToPlay = async (
   const url = args[1]
   const songs: ISong[] = []
 
-  if (url.includes('playlist')) {
+  if (args[0] === '-playlist') {
+    const args = message.content.split(' ')
+    const musics = args.splice(1, Number.MAX_VALUE).join(' ').split(',')
+    for (let i = 0; i < musics.length; i++) {
+      const { videos } = await yts(musics[i])
+      songs.push({
+        title: videos[0].title,
+        url: videos[0].url,
+      })
+    }
+  } else if (url.includes('playlist')) {
     const playlistInfo = await ytfps(url)
     playlistInfo.videos.forEach((video: any) => {
       songs.push({

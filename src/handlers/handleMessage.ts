@@ -10,6 +10,7 @@ const commandHandler = {
   skip: (params: CommandInput) => commands.skip(params),
   stop: (params: CommandInput) => commands.stop(params),
   shuffle: (params: CommandInput) => commands.shuffle(params),
+  playlist: (params: CommandInput) => commands.execute(params),
   lyrics: (params: CommandInput) => commands.lyrics(params),
 }
 

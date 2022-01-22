@@ -9,4 +9,5 @@ export enum CommandsAvailable {
   skip = 'skip',
   shuffle = 'shuffle',
   lyrics = 'lyrics',
+  playlist = 'playlist',
 }
