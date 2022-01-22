@@ -85,18 +85,16 @@ const getSongToPlay = async (
 ): Promise<ISong[] | undefined> => {
   const args = message.content.split(' ')
   const url = args[1]
-  const songs: ISong[] = []
+  let songs: ISong[] = []
 
   if (args[0] === '-playlist') {
     const args = message.content.split(' ')
     const musics = args.splice(1, Number.MAX_VALUE).join(' ').split(',')
-    for (let i = 0; i < musics.length; i++) {
-      const { videos } = await yts(musics[i])
-      songs.push({
-        title: videos[0].title,
-        url: videos[0].url,
-      })
-    }
+
+    const promises = musics.map(async (music) => getYtsMusic(music))
+    const newSongs: ISong[] = await Promise.all(promises)
+
+    songs = songs.concat(newSongs)
   } else if (url.includes('playlist')) {
     const playlistInfo = await ytfps(url)
     playlistInfo.videos.forEach((video: any) => {
@@ -121,4 +119,12 @@ const getSongToPlay = async (
   }
 
   return songs
+}
+
+const getYtsMusic = async (music: string): Promise<ISong> => {
+  const { videos } = await yts(music)
+  return {
+    title: videos[0].title,
+    url: videos[0].url,
+  }
 }
