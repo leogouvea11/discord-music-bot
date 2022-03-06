@@ -24,7 +24,7 @@ export const handleMessage = async (
 ): Promise<void> => {
   const { message, queue } = params
   if (
-    !message.content.startsWith(prefix) ||
+    !message.content.startsWith(process.env.PREFIX as string) ||
     message.author.bot ||
     !message.guild
   ) {

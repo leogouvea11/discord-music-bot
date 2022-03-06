@@ -8,6 +8,7 @@
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^12.5.3",
+    "dotenv": "^16.0.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",

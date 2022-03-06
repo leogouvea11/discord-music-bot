@@ -1,8 +1,11 @@
 import { Client } from 'discord.js'
-import { token } from '../config.json'
 import { HandlerQueue } from './handleQueue'
 import { handleMessage } from './handlers/handleMessage'
 import { handleVoiceStateUpdate } from './handlers/handleVoiceStateUpdate'
+import dotenv from 'dotenv'
+
+const rawEnvs = dotenv.config()
+const envs = rawEnvs.parsed!
 
 const client = new Client()
 
@@ -26,4 +29,4 @@ client.on('voiceStateUpdate', (oldState, newState) =>
 
 client.on('message', async (message) => handleMessage({ message, queue }))
 
-client.login(token)
+client.login(envs.TOKEN)
