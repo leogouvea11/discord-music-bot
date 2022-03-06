@@ -1,6 +1,5 @@
 import { Message } from 'discord.js'
 import * as commands from '../commands'
-import { prefix } from '../../config.json'
 import { HandlerQueue } from '../handleQueue'
 import { CommandInput } from '../types/interface'
 import { CommandsAvailable } from '../types/enum'
@@ -34,7 +33,7 @@ export const handleMessage = async (
   const tokens = message.content.split(' ')
   const commandToken = tokens[0]
 
-  if (commandToken.charAt(0) === prefix) {
+  if (commandToken.charAt(0) === '-') {
     const serverQueue = queue.get(message.guild.id)
     const command = commandToken.substring(1) as CommandsAvailable
 
