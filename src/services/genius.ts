@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { GENIUS_API_KEY } from '../../config.json'
 
 export const searchSong = async (params: {
   title: string
@@ -6,7 +7,7 @@ export const searchSong = async (params: {
 }) => {
   const { title } = params
   const headers = {
-    Authorization: `Bearer ${process.env.GENIUS_API_KEY as string}`,
+    Authorization: `Bearer ${GENIUS_API_KEY}`,
   }
   const { data } = await axios.get(`https://api.genius.com/search?q=${title}`, {
     headers,
