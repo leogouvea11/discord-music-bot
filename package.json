@@ -4,21 +4,21 @@
   "description": "Discord Music Bot",
   "main": "src/index.js",
   "dependencies": {
-    "@discordjs/opus": "^0.7.0",
+    "@discordjs/opus": "^0.1.0",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^12.5.3",
     "dotenv": "^16.0.0",
     "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.4.0",
+    "ffmpeg-static": "^4.4.1",
     "fluent-ffmpeg": "^2.1.2",
     "node-fetch": "^3.1.0",
-    "yt-search": "^2.10.2",
-    "ytdl-core": "^4.10.0",
-    "ytfps": "^1.0.5",
-    "ts-node": "^8.10.2",
     "nodemon": "^2.0.7",
-    "typescript": "^4.2.4"
+    "ts-node": "^8.10.2",
+    "typescript": "^4.2.4",
+    "yt-search": "^2.10.2",
+    "ytdl-core": "^4.11.2",
+    "ytfps": "^1.0.5"
   },
   "devDependencies": {
     "@types/node": "^14.17.3",

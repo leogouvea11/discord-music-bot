@@ -23,7 +23,8 @@ export const play = (params: PlayInput): void => {
     return
   }
 
-  const dispatcher = serverQueue.connection
+  try{
+    const dispatcher = serverQueue.connection
     .play(
       ytdl(song.url, {
         quality: 'highestaudio',
@@ -46,6 +47,9 @@ export const play = (params: PlayInput): void => {
         }, 1000)
       }
     })
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
-  serverQueue.textChannel.send(`Start playing: **${song.title}**`)
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`)
+  } catch(e) {
+    console.log(e)
+  }
 }
