@@ -12,19 +12,20 @@ export const handleVoiceStateUpdate = async (
 ) => {
   const { newState, oldState, queue } = params
   if (
-    !oldState.channel ||
-    !oldState.guild.me ||
-    oldState.channelID !== oldState.guild.me.voice.channelID ||
+    !newState ||
+    !newState.channel ||
+    !newState.guild.me ||
+    newState.channelID !== newState.guild.me.voice.channelID ||
     !newState.channel
   )
     return
 
-  if (oldState.channel.members.size === 1) {
+  if (newState.channel.members.size === 1) {
     setTimeout(() => {
-      if (oldState.channel && oldState.channel.members.size === 1) {
-        queue.delete(oldState.channel.guild.id)
+      if (newState.channel && newState.channel.members.size === 1) {
+        queue.delete(newState.channel.guild.id)
         oldState.channel!.leave()
       }
-    }, 5000)
+    }, 500)
   }
 }

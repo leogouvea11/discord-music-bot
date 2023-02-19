@@ -1,4 +1,4 @@
-import { Client } from 'discord.js'
+import { Client, VoiceState } from 'discord.js'
 import { HandlerQueue } from './handleQueue'
 import { handleMessage } from './handlers/handleMessage'
 import { handleVoiceStateUpdate } from './handlers/handleVoiceStateUpdate'
@@ -20,7 +20,7 @@ client.once('disconnect', () => {
   console.log('Disconnect!')
 })
 
-client.on('voiceStateUpdate', (oldState, newState) =>
+client.on('voiceStateUpdate', (oldState, newState: VoiceState) =>
   handleVoiceStateUpdate({ oldState, newState, queue }),
 )
 
