@@ -1,4 +1,4 @@
-import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
+import { DEFAULT_MESSAGE_LIFESPAN } from '../utils/constants'
 import { CommandInput } from '../types/interface'
 
 export const stop = async (params: CommandInput): Promise<void> => {

@@ -1,6 +1,6 @@
 import { play } from './play'
 import { CommandInput } from '../types/interface'
-import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
+import { DEFAULT_MESSAGE_LIFESPAN } from '../utils/constants'
 
 export const shuffle = (params: CommandInput) => {
   const { message, serverQueue, queue } = params

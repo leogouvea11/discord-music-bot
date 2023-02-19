@@ -3,7 +3,7 @@ import * as commands from '../commands'
 import { HandlerQueue } from '../handleQueue'
 import { CommandInput } from '../types/interface'
 import { CommandsAvailable } from '../types/enum'
-import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
+import { DEFAULT_MESSAGE_LIFESPAN } from '../utils/constants'
 
 const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),

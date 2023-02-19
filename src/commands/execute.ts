@@ -5,7 +5,7 @@ import { Message, Permissions } from 'discord.js'
 import { play } from './play'
 import { CommandInput, IQueue, ISong } from '../types/interface'
 import { PermissionsTypes } from '../types/enum'
-import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
+import { DEFAULT_MESSAGE_LIFESPAN } from '../utils/constants'
 
 export const execute = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
