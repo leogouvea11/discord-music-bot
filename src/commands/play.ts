@@ -48,7 +48,9 @@ export const play = (params: PlayInput): void => {
       }
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
-    serverQueue.textChannel.send(`Start playing: **${song.title}**`)
+    serverQueue.textChannel.send(`Start playing: **${song.title}**`).then(sentMessage => {
+      sentMessage.delete({ timeout: 20*60*1000 })
+    })
   } catch(e) {
     console.log(e)
   }

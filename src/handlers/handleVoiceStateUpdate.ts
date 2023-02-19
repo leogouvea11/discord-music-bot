@@ -3,7 +3,7 @@ import { HandlerQueue } from '../handleQueue'
 
 type HandleVoiceStateUpdateInput = {
   oldState: VoiceState
-  newState: VoiceState
+  newState: any
   queue: HandlerQueue
 }
 
@@ -11,21 +11,21 @@ export const handleVoiceStateUpdate = async (
   params: HandleVoiceStateUpdateInput,
 ) => {
   const { newState, oldState, queue } = params
+
   if (
-    !newState ||
-    !newState.channel ||
-    !newState.guild.me ||
-    newState.channelID !== newState.guild.me.voice.channelID ||
-    !newState.channel
-  )
+    !oldState ||
+    !oldState.guild.me ||
+    oldState.channelID !== oldState.guild.me.voice.channelID ||
+    !oldState.channel
+    )
     return
 
-  if (newState.channel.members.size === 1) {
+  if (oldState.channel!.members.size === 1) {
     setTimeout(() => {
-      if (newState.channel && newState.channel.members.size === 1) {
-        queue.delete(newState.channel.guild.id)
+      if (oldState.channel && oldState.channel.members.size === 1) {
+        queue.delete(oldState.channel.guild.id)
         oldState.channel!.leave()
       }
-    }, 500)
+    }, 5000)
   }
 }

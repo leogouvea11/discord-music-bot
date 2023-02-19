@@ -3,6 +3,7 @@ import * as commands from '../commands'
 import { HandlerQueue } from '../handleQueue'
 import { CommandInput } from '../types/interface'
 import { CommandsAvailable } from '../types/enum'
+import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
 
 const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),
@@ -38,7 +39,9 @@ export const handleMessage = async (
     const command = commandToken.substring(1) as CommandsAvailable
 
     if (!Object.values(CommandsAvailable).includes(command)) {
-      message.channel.send('You need to enter a valid command!')
+      message.channel.send('You need to enter a valid command!').then(sentMessage => {
+        sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+      })
       return
     }
 

@@ -20,8 +20,8 @@ client.once('disconnect', () => {
   console.log('Disconnect!')
 })
 
-client.on('voiceStateUpdate', (oldState, newState: VoiceState) =>
-  handleVoiceStateUpdate({ oldState, newState, queue }),
+client.on('voiceStateUpdate', async (oldState, newState: VoiceState) =>
+  await handleVoiceStateUpdate({ oldState, newState, queue }),
 )
 
 client.on('message', async (message) => handleMessage({ message, queue }))

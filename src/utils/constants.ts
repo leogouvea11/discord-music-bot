@@ -1,0 +1,1 @@
+export const DEFAULT_MESSAGE_LIFESPAN = 20*60*1000

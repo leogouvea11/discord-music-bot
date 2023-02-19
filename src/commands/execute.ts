@@ -5,6 +5,7 @@ import { Message, Permissions } from 'discord.js'
 import { play } from './play'
 import { CommandInput, IQueue, ISong } from '../types/interface'
 import { PermissionsTypes } from '../types/enum'
+import { DEFAULT_MESSAGE_LIFESPAN } from 'src/utils/constants'
 
 export const execute = async (params: CommandInput): Promise<void> => {
   const { message, serverQueue, queue } = params
@@ -15,30 +16,34 @@ export const execute = async (params: CommandInput): Promise<void> => {
 
   const voiceChannel = message.member.voice.channel
   if (!voiceChannel) {
-    message.channel.send('You need to be in a voice channel to play music!')
+    message.channel.send('You need to be in a voice channel to play music!').then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
     return
   }
 
   const permissions = voiceChannel.permissionsFor(message.client.user)
   if (haveAllPermissions(permissions)) {
-    message.channel.send(
-      'I need the permissions to join and speak in your voice channel!',
-    )
+    message.channel.send('I need the permissions to join and speak in your voice channel!').then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
     return
   }
 
   const songs = await getSongToPlay(message)
 
   if (!songs) {
-    message.channel.send('No songs were found!')
+    message.channel.send('No songs were found!').then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
     return
   }
 
   if (serverQueue) {
     serverQueue.songs = serverQueue.songs.concat(songs)
-    message.channel.send(
-      `**${songs.length}** songs has been added to the queue!`,
-    )
+    message.channel.send(`**${songs.length}** songs has been added to the queue!`).then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
     return
   }
 
@@ -55,11 +60,13 @@ export const execute = async (params: CommandInput): Promise<void> => {
   queue.set(message.guild.id, queueContruct)
 
   if (queueContruct.songs.length === 1) {
-    message.channel.send(`**${songs[0].title}** has been added to the queue!`)
+    message.channel.send(`**${songs[0].title}** has been added to the queue!`).then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
   } else {
-    message.channel.send(
-      `**${songs.length}** songs has been added to the queue!`,
-    )
+    message.channel.send(`**${songs.length}** songs has been added to the queue!`).then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
   }
 
   try {
@@ -71,7 +78,9 @@ export const execute = async (params: CommandInput): Promise<void> => {
     })
   } catch (err) {
     queue.delete(message.guild.id)
-    message.channel.send(String(err))
+    message.channel.send(String(err)).then(sentMessage => {
+      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+    })
   }
 }
 
