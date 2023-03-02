@@ -45,6 +45,8 @@ export const play = (params: PlayInput): void => {
         setTimeout(() => {
           play(params)
         }, 1000)
+      }else {
+        console.log(error)
       }
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
