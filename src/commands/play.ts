@@ -40,14 +40,10 @@ export const play = (params: PlayInput): void => {
         song: serverQueue.songs[0],
       })
     })
-    .on('error', (error: any) => {
-      if (error.statusCode === 403) {
-        setTimeout(() => {
-          play(params)
-        }, 1000)
-      }else {
-        console.log(error)
-      }
+    .on('error', (err: any) => {
+      setTimeout(() => {
+        play(params)
+      }, 1000)
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
     serverQueue.textChannel.send(`Start playing: **${song.title}**`).then(sentMessage => {
