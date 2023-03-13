@@ -17,7 +17,7 @@ export const handleVoiceStateUpdate = async (
     !oldState.guild.me ||
     oldState.channelID !== oldState.guild.me.voice.channelID ||
     !oldState.channel
-    )
+  )
     return
 
   if (oldState.channel!.members.size === 1) {

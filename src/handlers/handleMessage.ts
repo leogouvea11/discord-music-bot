@@ -4,6 +4,7 @@ import { HandlerQueue } from '../handleQueue'
 import { CommandInput } from '../types/interface'
 import { CommandsAvailable } from '../types/enum'
 import { DEFAULT_MESSAGE_LIFESPAN } from '../utils/constants'
+import { COMMAND } from '../../config.json'
 
 const commandHandler = {
   play: (params: CommandInput) => commands.execute(params),
@@ -24,7 +25,7 @@ export const handleMessage = async (
 ): Promise<void> => {
   const { message, queue } = params
   if (
-    !message.content.startsWith('-') ||
+    !message.content.startsWith(COMMAND) ||
     message.author.bot ||
     !message.guild
   ) {
@@ -34,14 +35,16 @@ export const handleMessage = async (
   const tokens = message.content.split(' ')
   const commandToken = tokens[0]
 
-  if (commandToken.charAt(0) === '-') {
+  if (commandToken.charAt(0) === COMMAND) {
     const serverQueue = queue.get(message.guild.id)
     const command = commandToken.substring(1) as CommandsAvailable
 
     if (!Object.values(CommandsAvailable).includes(command)) {
-      message.channel.send('You need to enter a valid command!').then(sentMessage => {
-        sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
-      })
+      message.channel
+        .send('You need to enter a valid command!')
+        .then((sentMessage) => {
+          sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+        })
       return
     }
 

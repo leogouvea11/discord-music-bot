@@ -10,16 +10,20 @@ export const skip = async (params: CommandInput): Promise<void> => {
   }
 
   if (!serverQueue) {
-    message.channel.send('Does not have musics in queue to skip.').then(sentMessage => {
-      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
-    })
+    message.channel
+      .send('Does not have musics in queue to skip.')
+      .then((sentMessage) => {
+        sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+      })
     return
   }
 
   if (!message.member.voice.channel) {
-    message.channel.send('You have to be in a voice channel to stop the music!').then(sentMessage => {
-      sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
-    })
+    message.channel
+      .send('You have to be in a voice channel to stop the music!')
+      .then((sentMessage) => {
+        sentMessage.delete({ timeout: DEFAULT_MESSAGE_LIFESPAN })
+      })
     return
   }
 
